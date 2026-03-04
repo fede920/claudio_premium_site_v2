@@ -320,11 +320,8 @@ footer a {
     color: #2f2f2f;
   }
 
-  .nav-whatsapp svg { vertical-align: middle; }
-
-  /* Stili per contatti: icona telefono e WhatsApp inline */
+  /* Stili per contatti: icona telefono */
   .tel-link { text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap:8px; }
-  .whatsapp-inline svg { vertical-align: middle; }
 
   .header.menu-open nav { display: flex; }
 

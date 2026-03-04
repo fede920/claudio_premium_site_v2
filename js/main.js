@@ -190,3 +190,52 @@ document.addEventListener('DOMContentLoaded', ()=>{ loadAnalyticsIfAllowed(); })
 	// chiudi con ESC
 	document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 })();
+
+// Handle "Informazioni e appuntamenti" button: on mobile start tel: immediately,
+// on desktop show a small call popup with the number ready to call.
+(function(){
+	const btn = document.querySelector('.btn-lux');
+	if(!btn) return;
+	const phone = '+393892423179';
+
+	function isMobileDevice(){
+		return /Mobi|Android|iPhone|iPad|iPod|IEMobile|BlackBerry/i.test(navigator.userAgent) || window.matchMedia('(max-width:600px)').matches;
+	}
+
+	function createPopup(){
+		let p = document.getElementById('call-popup');
+		if(p) return p;
+		p = document.createElement('div');
+		p.id = 'call-popup';
+		p.innerHTML = `
+			<div class="call-popup-inner">
+				<div class="call-text">Chiama ora: <a href="tel:${phone}">${phone}</a></div>
+				<div class="call-actions"><a class="call-btn" href="tel:${phone}">Chiama</a><button class="call-close" aria-label="Chiudi">×</button></div>
+			</div>`;
+		document.body.appendChild(p);
+		// close handler
+		p.querySelector('.call-close').addEventListener('click', ()=>{ p.classList.remove('show'); });
+		return p;
+	}
+
+	btn.addEventListener('click', function(e){
+		// if user used middle click or modifier, let default
+		if(e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+		e.preventDefault();
+		if(isMobileDevice()){
+			window.location.href = 'tel:' + phone;
+			return;
+		}
+		// Desktop: show popup and scroll to contatti section
+		const popup = createPopup();
+		popup.classList.add('show');
+		// focus for accessibility
+		const callBtn = popup.querySelector('.call-btn');
+		if(callBtn) callBtn.focus();
+		const cont = document.getElementById('contatti');
+		if(cont) cont.scrollIntoView({behavior:'smooth'});
+		// auto-hide after 8s
+		clearTimeout(popup._timeout);
+		popup._timeout = setTimeout(()=>{ popup.classList.remove('show'); },8000);
+	});
+})();
