@@ -160,3 +160,33 @@ function loadAnalyticsIfAllowed(){
 
 // Try to load analytics on page load if consent already given
 document.addEventListener('DOMContentLoaded', ()=>{ loadAnalyticsIfAllowed(); });
+
+// Mobile menu toggle: mostra/nasconde nav e sincronizza aria-expanded
+(function(){
+	const btn = document.querySelector('.menu-toggle');
+	const header = document.querySelector('.header');
+	const nav = document.querySelector('.header nav');
+	if(!btn || !header || !nav) return;
+
+	function closeMenu(){
+		header.classList.remove('menu-open');
+		btn.setAttribute('aria-expanded','false');
+	}
+	function openMenu(){
+		header.classList.add('menu-open');
+		btn.setAttribute('aria-expanded','true');
+	}
+
+	btn.addEventListener('click', (e)=>{
+		const opened = header.classList.contains('menu-open');
+		if(opened) closeMenu(); else openMenu();
+	});
+
+	// chiudi quando si clicca un link del menu
+	nav.addEventListener('click', (e)=>{
+		if(e.target && e.target.tagName === 'A') closeMenu();
+	});
+
+	// chiudi con ESC
+	document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+})();

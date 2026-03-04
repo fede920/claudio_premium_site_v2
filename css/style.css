@@ -51,6 +51,12 @@ h1, h2, h3 {
   height: 48px;
 }
 
+.menu-toggle {
+  display: none;
+  border: 0;
+  background: transparent;
+}
+
 nav a {
   margin-left: 26px;
   text-decoration: none;
@@ -259,9 +265,70 @@ footer a {
   }
 }
 
-/* Nascondi menu mobile */
+/* Mobile menu e toggle */
 @media (max-width: 600px) {
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .hamburger {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #111;
+    border-radius: 2px;
+    position: relative;
+  }
+  .hamburger::before, .hamburger::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 2px;
+    background: #111;
+    border-radius: 2px;
+    transition: transform .18s ease, top .18s ease, opacity .18s ease;
+  }
+  .hamburger::before { top: -6px; }
+  .hamburger::after { top: 6px; }
+
   nav {
     display: none;
+    position: absolute;
+    top: 64px;
+    right: 24px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    min-width: 180px;
+    z-index: 30;
+    flex-direction: column;
   }
+
+  nav a {
+    display: block;
+    margin: 8px 0;
+    font-size: 16px;
+    color: #2f2f2f;
+  }
+
+  .nav-whatsapp svg { vertical-align: middle; }
+
+  /* Stili per contatti: icona telefono e WhatsApp inline */
+  .tel-link { text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap:8px; }
+  .whatsapp-inline svg { vertical-align: middle; }
+
+  .header.menu-open nav { display: flex; }
+
+  .header.menu-open .hamburger { background: transparent; }
+  .header.menu-open .hamburger::before { transform: rotate(45deg); top: 0; }
+  .header.menu-open .hamburger::after { transform: rotate(-45deg); top: 0; }
 }
